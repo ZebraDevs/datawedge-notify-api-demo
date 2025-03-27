@@ -7,13 +7,14 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import com.nilac.zebra.dwnotifydemoapp.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private var mScannerIdentifier = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,14 +54,22 @@ class MainActivity : AppCompatActivity() {
         val bundleNotify = Bundle()
         val bundleNotificationConfig = Bundle()
 
-        i.setAction("com.symbol.datawedge.api.ACTION")
+        i.setAction(AppConstants.DW_ACTION)
 
-        bundleNotificationConfig.putString("DEVICE_IDENTIFIER", "BLUETOOTH_RS5100")
-        bundleNotificationConfig.putIntArray("NOTIFICATION_SETTINGS", intArrayOf(17, 23, 8, 43))
-        bundleNotify.putBundle("NOTIFICATION_CONFIG", bundleNotificationConfig)
+        bundleNotificationConfig.putString(
+            AppConstants.EXTRA_NOTIFY_SCANNER_IDENTIFIER,
+            mScannerIdentifier
+        )
+        bundleNotificationConfig.putIntArray(
+            AppConstants.EXTRA_NOTIFY_NOTIFICATION_SETTINGS,
+            intArrayOf(17, 23, 8, 43)
+        )
+        bundleNotify.putBundle(
+            AppConstants.EXTRA_NOTIFY_NOTIFICATION_CONFIG,
+            bundleNotificationConfig
+        )
 
-        i.putExtra("com.symbol.datawedge.api.notification.NOTIFY", bundleNotify)
-        i.putExtra("SEND_RESULT", "true")
+        i.putExtra(AppConstants.DW_NOTIFICATION_NOTIFY, bundleNotify)
         sendBroadcast(i)
     }
 
@@ -69,11 +78,12 @@ class MainActivity : AppCompatActivity() {
             if (intent.action == AppConstants.NOTIFICATION_ACTION) {
                 val extras = intent.getBundleExtra(AppConstants.EXTRA_RESULT_NOTIFICATION)
                 val scannerStatus = extras?.getString(AppConstants.EXTRA_RESULT_NOTIFICATION_STATUS)
-                val scannerIdentifier =
+                mScannerIdentifier =
                     extras?.getString(AppConstants.EXTRA_RESULT_NOTIFICATION_SCANNER_IDENTIFIER)
+                        ?: ""
 
                 binding.scannerIdentifier.text =
-                    getString(R.string.scanner_identifier_in_use, scannerIdentifier)
+                    getString(R.string.scanner_identifier_in_use, mScannerIdentifier)
                 binding.scannerStatus.text =
                     getString(R.string.scanner_identifier_status, scannerStatus)
 
