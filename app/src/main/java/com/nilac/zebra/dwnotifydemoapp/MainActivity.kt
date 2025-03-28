@@ -30,7 +30,19 @@ class MainActivity : AppCompatActivity() {
         sendBroadcast(DWUtil.generateDWProfileIntent(this))
 
         binding.notifyButton.setOnClickListener {
-            notifyScanner()
+            sendBroadcast(DWUtil.notifyScanner(mScannerIdentifier, mSelectedSettings.toIntArray()))
+        }
+
+        binding.resetButton.setOnClickListener {
+            sendBroadcast(DWUtil.resetRedScannerLedStatus(mScannerIdentifier))
+            sendBroadcast(DWUtil.resetGreenScannerLedStatus(mScannerIdentifier))
+
+            mSelectedSettings.clear()
+            binding.availableLedModes.setText("")
+            binding.beepModeOne.setText("")
+            binding.beepModeTwo.setText("")
+            binding.beepModeThree.setText("")
+            binding.beepModeFour.setText("")
         }
 
         prepareUI()
@@ -103,30 +115,6 @@ class MainActivity : AppCompatActivity() {
         val filter = IntentFilter()
         filter.addAction(AppConstants.NOTIFICATION_ACTION)
         registerReceiver(mainReceiver, filter, RECEIVER_EXPORTED)
-    }
-
-    private fun notifyScanner() {
-        val i = Intent()
-        val bundleNotify = Bundle()
-        val bundleNotificationConfig = Bundle()
-
-        i.setAction(AppConstants.DW_ACTION)
-
-        bundleNotificationConfig.putString(
-            AppConstants.EXTRA_NOTIFY_SCANNER_IDENTIFIER,
-            mScannerIdentifier
-        )
-        bundleNotificationConfig.putIntArray(
-            AppConstants.EXTRA_NOTIFY_NOTIFICATION_SETTINGS,
-            mSelectedSettings.toIntArray()
-        )
-        bundleNotify.putBundle(
-            AppConstants.EXTRA_NOTIFY_NOTIFICATION_CONFIG,
-            bundleNotificationConfig
-        )
-
-        i.putExtra(AppConstants.DW_NOTIFICATION_NOTIFY, bundleNotify)
-        sendBroadcast(i)
     }
 
     private val mainReceiver: BroadcastReceiver = object : BroadcastReceiver() {

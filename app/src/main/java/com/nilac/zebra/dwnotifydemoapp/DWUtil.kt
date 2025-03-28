@@ -83,4 +83,36 @@ object DWUtil {
 
         return dwIntent
     }
+
+    fun resetRedScannerLedStatus(scannerIdentifier: String): Intent {
+        return notifyScanner(scannerIdentifier, intArrayOf(48))
+    }
+
+    fun resetGreenScannerLedStatus(scannerIdentifier: String): Intent {
+        return notifyScanner(scannerIdentifier, intArrayOf(42))
+    }
+
+    fun notifyScanner(scannerIdentifier: String, selectedSettings: IntArray): Intent {
+        val i = Intent()
+        val bundleNotify = Bundle()
+        val bundleNotificationConfig = Bundle()
+
+        i.setAction(AppConstants.DW_ACTION)
+
+        bundleNotificationConfig.putString(
+            AppConstants.EXTRA_NOTIFY_SCANNER_IDENTIFIER,
+            scannerIdentifier
+        )
+        bundleNotificationConfig.putIntArray(
+            AppConstants.EXTRA_NOTIFY_NOTIFICATION_SETTINGS,
+            selectedSettings
+        )
+        bundleNotify.putBundle(
+            AppConstants.EXTRA_NOTIFY_NOTIFICATION_CONFIG,
+            bundleNotificationConfig
+        )
+
+        i.putExtra(AppConstants.DW_NOTIFICATION_NOTIFY, bundleNotify)
+        return i
+    }
 }
