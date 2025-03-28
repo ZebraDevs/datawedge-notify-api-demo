@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- LED commands -->
+    <string-array name="led_modes">
+        <item>Green LED OFF</item>
+        <item>Green LED ON</item>
+        <item>Red LED ON</item>
+        <item>Red LED OFF</item>
+    </string-array>
+
+    <integer-array name="led_modes_codes">
+        <item>42</item>
+        <item>43</item>
+        <item>47</item>
+        <item>48</item>
+    </integer-array>
+
+    <!-- Beeps -->
+    <string-array name="beeps_modes">
+        <item>1 high short beep</item>
+        <item>2 high short beeps</item>
+        <item>3 high short beeps</item>
+        <item>4 high short beeps</item>
+        <item>5 high short beeps</item>
+
+        <item>1 low short beep</item>
+        <item>2 low short beeps</item>
+        <item>3 low short beeps</item>
+        <item>4 low short beeps</item>
+        <item>5 low short beeps</item>
+
+        <item>1 high long beep</item>
+        <item>2 high long beeps</item>
+        <item>3 high long beeps</item>
+        <item>4 high long beeps</item>
+        <item>5 high long beeps</item>
+
+        <item>1 low long beep</item>
+        <item>2 low long beeps</item>
+        <item>3 low long beeps</item>
+        <item>4 low long beeps</item>
+        <item>5 low long beeps</item>
+
+        <item>Fast warble beep</item>
+        <item>Slow warble beep</item>
+
+        <item>High-low beep</item>
+        <item>Low-high beep</item>
+        <item>High-low-high beep</item>
+        <item>Low-high-low beep</item>
+        <item>High-high-low-low beep</item>
+    </string-array>
+
+    <integer-array name="beeps_modes_codes">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+    </integer-array>
+
+</resources>

@@ -6,6 +6,9 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.nilac.zebra.dwnotifydemoapp.databinding.ActivityMainBinding
 
@@ -15,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private var mScannerIdentifier = ""
+    private var mSelectedSettings = arrayListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         binding.notifyButton.setOnClickListener {
             notifyScanner()
         }
+
+        prepareUI()
     }
 
     override fun onResume() {
@@ -42,13 +48,63 @@ class MainActivity : AppCompatActivity() {
         sendBroadcast(DWUtil.registerForStatusChange(packageName, false))
     }
 
+    private fun prepareUI() {
+        val ledModesCodes = resources.getIntArray(R.array.led_modes_codes)
+        val beepsModesCodes = resources.getIntArray(R.array.beeps_modes_codes)
+
+        val ledModesAdapter: ArrayAdapter<String> = ArrayAdapter(
+            this,
+            android.R.layout.simple_dropdown_item_1line,
+            resources.getStringArray(R.array.led_modes)
+        )
+        binding.availableLedModes.setAdapter(ledModesAdapter)
+        binding.availableLedModes.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val selectedLedMode = ledModesCodes[position]
+                mSelectedSettings.replaceOrAdd(0, selectedLedMode)
+            }
+
+        val beepModesAdapter: ArrayAdapter<String> = ArrayAdapter(
+            this,
+            android.R.layout.simple_dropdown_item_1line,
+            resources.getStringArray(R.array.beeps_modes)
+        )
+
+        binding.beepModeOne.setAdapter(beepModesAdapter)
+        binding.beepModeOne.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val selectedBeepMode = beepsModesCodes[position]
+                mSelectedSettings.replaceOrAdd(1, selectedBeepMode)
+            }
+
+        binding.beepModeTwo.setAdapter(beepModesAdapter)
+        binding.beepModeTwo.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val selectedBeepMode = beepsModesCodes[position]
+                mSelectedSettings.replaceOrAdd(2, selectedBeepMode)
+            }
+
+        binding.beepModeThree.setAdapter(beepModesAdapter)
+        binding.beepModeThree.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val selectedBeepMode = beepsModesCodes[position]
+                mSelectedSettings.replaceOrAdd(3, selectedBeepMode)
+            }
+
+        binding.beepModeFour.setAdapter(beepModesAdapter)
+        binding.beepModeFour.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val selectedBeepMode = beepsModesCodes[position]
+                mSelectedSettings.replaceOrAdd(4, selectedBeepMode)
+            }
+    }
+
     private fun registerReceivers() {
         val filter = IntentFilter()
         filter.addAction(AppConstants.NOTIFICATION_ACTION)
         registerReceiver(mainReceiver, filter, RECEIVER_EXPORTED)
     }
 
-    //TEST
     private fun notifyScanner() {
         val i = Intent()
         val bundleNotify = Bundle()
@@ -62,7 +118,7 @@ class MainActivity : AppCompatActivity() {
         )
         bundleNotificationConfig.putIntArray(
             AppConstants.EXTRA_NOTIFY_NOTIFICATION_SETTINGS,
-            intArrayOf(17, 23, 8, 43)
+            mSelectedSettings.toIntArray()
         )
         bundleNotify.putBundle(
             AppConstants.EXTRA_NOTIFY_NOTIFICATION_CONFIG,
@@ -89,6 +145,14 @@ class MainActivity : AppCompatActivity() {
 
                 Log.i(TAG, extras.toString())
             }
+        }
+    }
+
+    private fun <T> MutableList<T>.replaceOrAdd(index: Int, element: T) {
+        if (index in indices) {
+            this[index] = element
+        } else {
+            this.add(element)
         }
     }
 

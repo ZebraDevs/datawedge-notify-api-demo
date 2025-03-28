@@ -3,4 +3,10 @@
 
     <string name="scanner_identifier_in_use">Scanner in use: %s</string>
     <string name="scanner_identifier_status">Status: %s</string>
+
+    <string name="notify_led_modes_hint">LED Mode</string>
+    <string name="notify_beep_mode_sequence_one">Beep Mode Sequence 1</string>
+    <string name="notify_beep_mode_sequence_two">Beep Mode Sequence 2</string>
+    <string name="notify_beep_mode_sequence_three">Beep Mode Sequence 3</string>
+    <string name="notify_beep_mode_sequence_four">Beep Mode Sequence 4</string>
 </resources>
